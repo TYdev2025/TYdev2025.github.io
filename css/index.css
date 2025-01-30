@@ -1,0 +1,29 @@
+#wrapper {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img {
+    width: 250px;
+    display: block;
+    margin: 0 auto;
+}
+
+p {
+    padding: 50px;
+}
+
+ol li {
+    list-style-type: none;
+    padding: 2px;
+    text-align: center;
+}
+
+#top {
+    padding-top: 2px;
+}
+
+#bottom {
+    padding-bottom: 2px;
+}
