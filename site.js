@@ -48,3 +48,12 @@ document.getElementById("welcome").innerText = welcomeMessage; // Inserts the ID
 
 const welcomeFont = document.querySelector('#welcome')
 welcomeFont.style.fontFamily = "Arial, sans-serif";
+
+// Week 4
+
+// You are going to send me a "secret" message, using localStorage. Modify your site.js file so that when it runs, it adds a message to localStorage. The message should be a string, and it can be anything you want. It could be a simple message, or a joke, or a quote, or anything else you want me to see.
+
+//You must use the key 'It's a secret to everybody.'. It must be spelled exactly like that, with the same capitalization and punctuation. If not, my code won't be able to find it. If I can't find it, you'll get a zero score, and a comment that says, "Message not received. Try again."
+
+localStorage.setItem("It's a secret to everybody.",'Secret Message!');
+console.log(localStorage.getItem("It's a secret to everybody."));
