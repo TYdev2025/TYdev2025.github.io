@@ -57,3 +57,58 @@ welcomeFont.style.fontFamily = "Arial, sans-serif";
 
 localStorage.setItem("It's a secret to everybody.",'Secret Message!');
 console.log(localStorage.getItem("It's a secret to everybody."));
+
+// Week 6 
+
+/* Add code to the JavaScript file to make the carousel work as described above. Use addEventListener to listen for clicks on the previous and next buttons.
+
+To shift the images to the left, you can increment the currentImage variable. To shift the images to the right, you can decrement the currentImage variable. Then, call the showImages function to update the images displayed in the carousel.
+
+Use (anonymous) arrow functions to handle the click events.
+
+Note that the first three images in the urls array are the images that should be displayed in the carousel. You can add or modify the images in the array to display different images.
+
+Use JavaScript's built-in setInterval function to automatically change the images every 5 seconds. It works just like setTimeout, but it repeats the function every time the interval is reached. */
+
+const urls = [
+    'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://images.pexels.com/photos/933964/pexels-photo-933964.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://images.pexels.com/photos/1370296/pexels-photo-1370296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+].map(url => { (new Image()).src = url; return url })
+
+const images = document.querySelectorAll('#carousel img')
+
+let currentImage = 0
+const showImages = () => {
+    const offset = currentImage % urls.length
+    images.forEach((image, index) => {
+        const imageIndex = (index + offset + urls.length) % urls.length
+        image.src = urls[imageIndex]
+    })
+}
+
+showImages() // A METHOD/FUNCTION necessary for the images to ACTUALLY show up UPON REFRESHING THE SCREEN
+
+const nextIMG = () => { // Code for when clicking the next button
+    currentImage++ // Increment / Shifts the images RIGHT
+    showImages() // Calling the METHOD/FUNCTION necessary for the images to dynamically be interacted
+}
+
+const prevIMG = () => { // Code for when clicking the previous button
+    currentImage-- // Decrement / Shifts the images LEFT
+    showImages() // Calling the METHOD/FUNCTION necessary for the images to dynamically be interacted
+}
+
+const prevButton = document.getElementById('prev') // prev id
+const nextButton = document.getElementById('next') // next id
+
+nextButton.addEventListener('click', () => nextIMG())
+prevButton.addEventListener('click', () => prevIMG())
+
+// Code to MANUALLY run ONCE after 5 seconds
+setTimeout(() => nextIMG(), 5000)
+
+// Code to AUTOMATICALLY run EVERY 5 seconds
+setInterval(() => nextIMG(), 5000)
