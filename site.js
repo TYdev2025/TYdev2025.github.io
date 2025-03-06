@@ -112,3 +112,41 @@ setTimeout(() => nextIMG(), 5000)
 
 // Code to AUTOMATICALLY run EVERY 5 seconds
 setInterval(() => nextIMG(), 5000)
+
+// Week 7
+
+// In this assignment, you will start building a to-do list for your homepage. It will not be a full-featured to-do list, but it will allow the user to add items.
+// The to-do list should allow the user to add items to the list.
+// The list should be saved to local storage so that the items persist even after the page is reloaded.
+
+document.addEventListener('DOMContentLoaded', () => {
+    const toDoInput = document.getElementById('new-todo') // id = new-todo
+    const toDoButton = document.getElementById('button-todo') // id = button-todo
+    const newListItem = document.getElementById('todo-list') // id = todo-list
+
+    // Get the list from local storage
+    const todos = JSON.parse(localStorage.getItem('todo-list')) || []
+
+    const renderToDos = () => {
+        todoList.innerHTML = '' // Clear the li's before we recreate them
+        todos.forEach(todo => {
+            // Create and add new list items to the DOM
+            const li = document.createElement('li')
+            li.textContent = todo.text
+            li.classList.add('todo')
+            todoList.append(li)
+        })
+    }
+
+    toDoButton.addEventListener('click', () => {
+        const newToDoText = toDoInput.value.trim()
+        if (newToDoText) {
+            todos.push({ text: newToDoText, completed: false }) // Add a new item to the list
+            localStorage.setItem('todo-list', JSON.stringify(todos)) // Save the list to local storage
+            toDoInpput.value = ''
+            renderToDos() // Initial render for when the Add To Do button is clicked
+        }
+    })
+
+    renderToDos() // Initial render for when the page loads
+})
