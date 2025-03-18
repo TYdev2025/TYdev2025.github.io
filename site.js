@@ -120,33 +120,42 @@ setInterval(() => nextIMG(), 5000)
 // The list should be saved to local storage so that the items persist even after the page is reloaded.
 
 document.addEventListener('DOMContentLoaded', () => {
-    const toDoInput = document.getElementById('new-todo') // id = new-todo
-    const toDoButton = document.getElementById('button-todo') // id = button-todo
-    const newListItem = document.getElementById('todo-list') // id = todo-list
+    const newListItem = document.querySelector('.todo-list') // class = todo-list // The ul itself
+    const toDoInput = document.getElementById('new-todo') // id = new-todo // Text Input
+    const toDoButton = document.getElementById('button-todo') // id = button-todo // Add Button
 
-    // Get the list from local storage
-    const todos = JSON.parse(localStorage.getItem('todo-list')) || []
-
-    const renderToDos = () => {
-        todoList.innerHTML = '' // Clear the li's before we recreate them
-        todos.forEach(todo => {
-            // Create and add new list items to the DOM
-            const li = document.createElement('li')
-            li.textContent = todo.text
-            li.classList.add('todo')
-            todoList.append(li)
-        })
+    // Save the List to Local Storage
+    const getTodos = () => JSON.parse(localStorage.getItem('todo-list')) || [] // Gets
+    const saveTodos = (todos) => localStorage.setItem('todo-list', JSON.stringify(todos)) // Saves
+    
+    // Function to RENDER the todo list
+    const renderTodos = () => {
+        const todos = getTodos() // Get stored todos
+        newListItem.innerHTML = '' // Clear the li's before we recreate them
+        todos.forEach(todo => addTodoToDOM(todo.text)) // Loop through and add items
     }
 
-    toDoButton.addEventListener('click', () => {
-        const newToDoText = toDoInput.value.trim()
-        if (newToDoText) {
-            todos.push({ text: newToDoText, completed: false }) // Add a new item to the list
-            localStorage.setItem('todo-list', JSON.stringify(todos)) // Save the list to local storage
-            toDoInpput.value = ''
-            renderToDos() // Initial render for when the Add To Do button is clicked
-        }
-    })
+    // Function to ADD a NEW ITEM to the DOM
+    const addTodoToDOM = (text) => {
+        // Create and Add New List Items to the DOM
+        const li = document.createElement('li') // Creates the li element for the items to be displayed in
+        li.textContent = text // Set its text content
+        li.classList.add('todo') // Add a Class name "todo" to the List item // .todo
+        newListItem.appendChild(li) // Adds the <li> to <ul class="todo-list">
+    }
 
-    renderToDos() // Initial render for when the page loads
+    // Function to Adding a New ToDo
+    const addNewTodo = () => {
+        const newTodoText = toDoInput.value.trim()
+        if (newTodoText) {
+            const todos = getTodos() // Get the latest to-do list from Local Storage
+            todos.push({ text: newTodoText, completed: false }) // Add a New Item to the list // Also an Array
+            saveTodos(todos) // Saves the new To Do item
+            input.value = '' // Clear Input Field
+            renderTodos() // Initial render for when the Add To Do button is clicked
+        }
+    }
+
+    toDoButton.addEventListener("click", addNewTodo) // Event listener for the Button (Button Click)
+    renderTodos() // Initial render when page loads
 })
