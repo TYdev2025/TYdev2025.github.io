@@ -159,3 +159,47 @@ document.addEventListener('DOMContentLoaded', () => {
     toDoButton.addEventListener("click", addNewTodo) // Event listener for the Button (Button Click)
     renderTodos() // Initial render when page loads
 })
+
+// Week 8
+
+// In this assignment you are going to use the fetch api, along with the PokeAPI to display a random pokemon image on your homepage.
+// As you saw in the unit exercise, you can use the PokeAPI to get information about pokemon. This includes images of the pokemon, which are refered to as "sprites."
+// The sprites object in the response from the API contains a front_default property. This is what I recommend you use to display the image of the pokemon. For full documentation visit the PokeAPI docs.
+
+// Specifications:
+// Modify the html of your homepage to include a div element that will hold the image of the pokemon.
+// Create an arrow function called getRandomPokemon that will fetch a random pokemon from the PokeAPI. You can use the following URL to get a random pokemon:
+// const url = 'https://pokeapi.co/api/v2/pokemon/' + Math.floor(Math.random() * 150)
+// Create an arrow function called renderPokemon that takes a pokemon object as a parameter. This function should create an image element and append it to the DOM.
+// Do not have your getRandomPokemon function call the renderPokemon function. Instead, have your getRandomPokemon function return the pokemon object. Then, call the renderPokemon function with the returned object.
+// Use Async/Await to handle any asynchronous code.
+
+const getRandomPokemon = async () => { // => <-- Arrow Function
+    const url = 'https://pokeapi.co/api/v2/pokemon/' + Math.floor(Math.random() * 150)
+    try {
+        const response = await fetch(url)
+        if (!response.ok) {
+            throw new Error('Network response is unstable')
+        }
+        const json = await response.json() // Parses the Pokemon Object
+        return json // return Pokemon Object
+    }
+    catch (error) {
+        console.error('There was an issue regarding te fetch operation')
+    }
+}
+
+const renderPokemon = (json) => {
+    const divPoke = document.querySelector('#divPoke')
+    divPoke.innerHTML = '' // Clear the previous Pokemon
+    const img = document.createElement('img')
+    img.src = json.sprites.front_default // url of the image from the 'front_default' property
+    img.alt = json.name // name of the pokemon
+    divPoke.append(img)
+}
+
+getRandomPokemon().then(json => { // To Fetch and Display a Random Pokemon
+    if (json) {
+        renderPokemon(json)
+    }
+})
